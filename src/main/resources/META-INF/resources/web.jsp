@@ -26,13 +26,57 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/"><i class="bi bi-house"></i> Trang chủ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/categories/searchpaginated"><i class="bi bi-grid-3x3-gap"></i> Danh mục (Admin)</a>
-                        </li>
+                        <c:if test="${not empty sessionScope.currentUser and sessionScope.currentUser.admin}">
+                            <li class="nav-item">
+                                <a class="nav-link text-warning fw-semibold" href="/admin/categories/searchpaginated">
+                                    <i class="bi bi-shield-lock"></i> Quản trị Category
+                                </a>
+                            </li>
+                        </c:if>
                     </ul>
-                    <span class="navbar-text text-light">
-                        <i class="bi bi-person-circle"></i> Khách hàng
-                    </span>
+                    <div class="d-flex align-items-center">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.currentUser}">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle me-2 fs-5"></i>
+                                        <span>${not empty sessionScope.currentUser.fullname ? sessionScope.currentUser.fullname : sessionScope.currentUser.username}</span>
+                                        <c:if test="${sessionScope.currentUser.admin}">
+                                            <span class="badge bg-danger ms-2">Admin</span>
+                                        </c:if>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                                        <li class="dropdown-header">
+                                            Tài khoản: <strong>${sessionScope.currentUser.username}</strong><br>
+                                            <small class="text-muted">${sessionScope.currentUser.email}</small>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <c:if test="${sessionScope.currentUser.admin}">
+                                            <li>
+                                                <a class="dropdown-item" href="/admin/categories/searchpaginated">
+                                                    <i class="bi bi-speedometer2 me-2 text-danger"></i> Trang Quản trị
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                        </c:if>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="/logout">
+                                                <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/login" class="btn btn-outline-light btn-sm me-2">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+                                </a>
+                                <a href="/register" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-person-plus me-1"></i> Đăng ký
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
         </nav>

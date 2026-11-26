@@ -33,8 +33,29 @@
                         </li>
                     </ul>
                     <div class="d-flex align-items-center text-white">
-                        <span class="badge bg-warning text-dark me-2">Admin Role</span>
-                        <span>Quản trị viên</span>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.currentUser}">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-badge-fill me-2 fs-5"></i>
+                                        <span>${not empty sessionScope.currentUser.fullname ? sessionScope.currentUser.fullname : sessionScope.currentUser.username}</span>
+                                        <span class="badge bg-warning text-dark ms-2">Admin</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                                        <li class="dropdown-header">
+                                            Quản trị: <strong>${sessionScope.currentUser.username}</strong><br>
+                                            <small class="text-muted">${sessionScope.currentUser.email}</small>
+                                        </li>
+                                        <li><a class="dropdown-item" href="/"><i class="bi bi-globe me-2"></i> Về Website</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/login" class="btn btn-light btn-sm"><i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
