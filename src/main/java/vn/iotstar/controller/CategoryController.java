@@ -31,16 +31,15 @@ public class CategoryController {
                          @RequestParam("page") Optional<Integer> page,
                          @RequestParam("size") Optional<Integer> size) {
 
-        int count = (int) categoryService.count();
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
+        int pageSize = size.orElse(5);
 
-        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("name"));
-        Page<Category> resultPage = null;
+        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+        Page<Category> resultPage;
 
         if (StringUtils.hasText(name)) {
-            resultPage = categoryService.findByNameContaining(name, pageable);
-            model.addAttribute("name", name);
+            resultPage = categoryService.findByNameContaining(name.trim(), pageable);
+            model.addAttribute("name", name.trim());
         } else {
             resultPage = categoryService.findAll(pageable);
         }
@@ -49,10 +48,6 @@ public class CategoryController {
         if (totalPages > 0) {
             int start = Math.max(1, currentPage - 2);
             int end = Math.min(currentPage + 2, totalPages);
-            if (totalPages > count) {
-                if (end == totalPages) start = end - count;
-                else if (start == 1) end = start + count;
-            }
             List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
                     .boxed()
                     .collect(Collectors.toList());
@@ -64,7 +59,9 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String add(ModelMap model) {
-        model.addAttribute("category", new Category());
+        Category category = new Category();
+        category.setStatus(1);
+        model.addAttribute("category", category);
         return "admin/category/addOrEdit";
     }
 
@@ -75,7 +72,7 @@ public class CategoryController {
             model.addAttribute("category", optCategory.get());
             return "admin/category/addOrEdit";
         }
-        redirectAttributes.addFlashAttribute("message", "Category không tồn tại!");
+        redirectAttributes.addFlashAttribute("errorMessage", "Category không tồn tại!");
         return "redirect:/admin/categories/searchpaginated";
     }
 
@@ -90,6 +87,18 @@ public class CategoryController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         categoryService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa Category thành công!");
+        return "redirect:/admin/categories/searchpaginated";
+    }
+
+    @GetMapping("/toggle-status/{id}")
+    public String toggleStatus(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        Optional<Category> opt = categoryService.findById(id);
+        if (opt.isPresent()) {
+            Category c = opt.get();
+            c.setStatus(c.getStatus() == 1 ? 0 : 1);
+            categoryService.save(c);
+            redirectAttributes.addFlashAttribute("message", "Đã " + (c.getStatus() == 1 ? "mở khóa" : "khóa") + " danh mục thành công!");
+        }
         return "redirect:/admin/categories/searchpaginated";
     }
 }

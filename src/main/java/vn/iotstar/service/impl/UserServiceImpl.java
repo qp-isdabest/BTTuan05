@@ -1,7 +1,10 @@
 package vn.iotstar.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import vn.iotstar.entity.User;
 import vn.iotstar.repository.UserRepository;
 import vn.iotstar.service.UserService;
@@ -72,6 +75,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User createUser(User user) {
+        if (StringUtils.hasText(user.getPassword())) {
+            user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
+        }
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(LocalDateTime.now());
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(Long id, User userForm, String newPassword) {
+        Optional<User> opt = userRepository.findById(id);
+        if (opt.isPresent()) {
+            User user = opt.get();
+            user.setFullname(userForm.getFullname());
+            user.setEmail(userForm.getEmail());
+            user.setPhone(userForm.getPhone());
+            user.setRole(userForm.getRole());
+            user.setStatus(userForm.getStatus());
+            if (StringUtils.hasText(newPassword)) {
+                user.setPassword(PasswordUtil.hashPassword(newPassword));
+            }
+            return userRepository.save(user);
+        }
+        return null;
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
@@ -79,6 +111,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<User> searchUsers(String keyword, Pageable pageable) {
+        return userRepository.searchUsers(keyword, pageable);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override

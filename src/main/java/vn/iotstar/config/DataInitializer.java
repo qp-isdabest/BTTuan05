@@ -7,7 +7,6 @@ import vn.iotstar.entity.Category;
 import vn.iotstar.entity.User;
 import vn.iotstar.service.CategoryService;
 import vn.iotstar.service.UserService;
-import vn.iotstar.util.PasswordUtil;
 
 @Configuration
 public class DataInitializer {
@@ -34,11 +33,14 @@ public class DataInitializer {
             }
 
             if (userService.count() == 0) {
-                User admin = new User(null, "admin", PasswordUtil.hashPassword("123456"), "Quản Trị Viên", "admin@iotstar.vn", "0901234567", "ADMIN", 1);
-                userService.save(admin);
-
-                User user = new User(null, "user", PasswordUtil.hashPassword("123456"), "Nguyễn Văn Người Dùng", "user@iotstar.vn", "0912345678", "USER", 1);
-                userService.save(user);
+                userService.createUser(new User(null, "admin", "123456", "Quản Trị Viên", "admin@iotstar.vn", "0901234567", "ADMIN", 1));
+                userService.createUser(new User(null, "user", "123456", "Nguyễn Văn Người Dùng", "user@iotstar.vn", "0912345678", "USER", 1));
+                userService.createUser(new User(null, "quanth", "123456", "Phan Thế Quân", "quanth@iotstar.vn", "0987654321", "ADMIN", 1));
+                userService.createUser(new User(null, "namnguyen", "123456", "Nguyễn Văn Nam", "namnv@gmail.com", "0908112233", "USER", 1));
+                userService.createUser(new User(null, "hoaithu", "123456", "Trần Hoài Thu", "thu.tran@gmail.com", "0909445566", "USER", 1));
+                userService.createUser(new User(null, "minhduc", "123456", "Lê Minh Đức", "duc.le@gmail.com", "0918778899", "USER", 1));
+                userService.createUser(new User(null, "khanhly", "123456", "Phạm Khánh Ly", "ly.pham@gmail.com", "0933221100", "USER", 1));
+                userService.createUser(new User(null, "hoanglong", "123456", "Vũ Hoàng Long", "long.vu@gmail.com", "0977665544", "USER", 0));
             }
         };
     }

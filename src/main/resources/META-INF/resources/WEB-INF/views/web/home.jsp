@@ -12,7 +12,7 @@
                 <i class="bi bi-layers-fill"></i> Spring Boot + JSP + SiteMesh 3
             </h1>
             <p class="col-md-8 fs-5 mx-auto text-secondary mb-4">
-                Hệ thống Quản lý Danh mục (Categories) tích hợp Tìm kiếm, Phân trang và Xác thực người dùng (Đăng ký, Đăng nhập, Đăng xuất).
+                Hệ thống Quản lý Danh mục (Categories) & Người dùng (Users) với Tìm kiếm, Phân trang và Phân quyền Admin.
             </p>
 
             <c:if test="${not empty sessionScope.currentUser}">
@@ -35,25 +35,28 @@
                     <c:when test="${not empty sessionScope.currentUser}">
                         <c:if test="${sessionScope.currentUser.admin}">
                             <a class="btn btn-danger btn-lg px-4" href="/admin/categories/searchpaginated">
-                                <i class="bi bi-shield-lock-fill"></i> Quản lý Category (Admin)
+                                <i class="bi bi-folder-fill me-1"></i> Quản lý Category
+                            </a>
+                            <a class="btn btn-dark btn-lg px-4" href="/admin/users/searchpaginated">
+                                <i class="bi bi-people-fill me-1"></i> Quản lý User
                             </a>
                         </c:if>
                         <a class="btn btn-outline-danger btn-lg px-4" href="/logout">
-                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                            <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
                         </a>
                     </c:when>
                     <c:otherwise>
                         <a class="btn btn-primary btn-lg px-4" href="/login">
-                            <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
                         </a>
                         <a class="btn btn-outline-success btn-lg px-4" href="/register">
-                            <i class="bi bi-person-plus"></i> Đăng ký tài khoản
+                            <i class="bi bi-person-plus me-1"></i> Đăng ký tài khoản
                         </a>
                     </c:otherwise>
                 </c:choose>
 
                 <a class="btn btn-outline-secondary btn-lg px-4" href="/h2-console" target="_blank">
-                    <i class="bi bi-database"></i> H2 Console
+                    <i class="bi bi-database me-1"></i> H2 Console
                 </a>
             </div>
         </div>

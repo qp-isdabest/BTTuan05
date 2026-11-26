@@ -27,10 +27,22 @@
                             <a class="nav-link active" href="/"><i class="bi bi-house"></i> Trang chủ</a>
                         </li>
                         <c:if test="${not empty sessionScope.currentUser and sessionScope.currentUser.admin}">
-                            <li class="nav-item">
-                                <a class="nav-link text-warning fw-semibold" href="/admin/categories/searchpaginated">
-                                    <i class="bi bi-shield-lock"></i> Quản trị Category
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-warning fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shield-lock"></i> Quản trị Admin
                                 </a>
+                                <ul class="dropdown-menu shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/categories/searchpaginated">
+                                            <i class="bi bi-folder-fill me-2 text-danger"></i> Quản lý Category
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/users/searchpaginated">
+                                            <i class="bi bi-people-fill me-2 text-danger"></i> Quản lý User
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </c:if>
                     </ul>
@@ -54,7 +66,12 @@
                                         <c:if test="${sessionScope.currentUser.admin}">
                                             <li>
                                                 <a class="dropdown-item" href="/admin/categories/searchpaginated">
-                                                    <i class="bi bi-speedometer2 me-2 text-danger"></i> Trang Quản trị
+                                                    <i class="bi bi-folder-fill me-2 text-danger"></i> Quản lý Category
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/admin/users/searchpaginated">
+                                                    <i class="bi bi-people-fill me-2 text-danger"></i> Quản lý User
                                                 </a>
                                             </li>
                                             <li><hr class="dropdown-divider"></li>

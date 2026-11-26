@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="/admin/categories/searchpaginated">
-                    <i class="bi bi-shield-lock-fill"></i> ADMIN CONTROL PANEL
+                    <i class="bi bi-shield-lock-fill me-1"></i> ADMIN PORTAL
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -26,10 +26,19 @@
                 <div class="collapse navbar-collapse" id="adminNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/"><i class="bi bi-house"></i> Về Website</a>
+                            <a class="nav-link" href="/"><i class="bi bi-globe me-1"></i> Về Website</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/admin/categories/searchpaginated"><i class="bi bi-folder-fill"></i> Quản lý Category</a>
+                            <a class="nav-link ${pageContext.request.requestURI.contains('/categories') ? 'active fw-bold' : ''}"
+                               href="/admin/categories/searchpaginated">
+                                <i class="bi bi-folder-fill me-1"></i> Quản lý Category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ${pageContext.request.requestURI.contains('/users') ? 'active fw-bold' : ''}"
+                               href="/admin/users/searchpaginated">
+                                <i class="bi bi-people-fill me-1"></i> Quản lý User
+                            </a>
                         </li>
                     </ul>
                     <div class="d-flex align-items-center text-white">
@@ -46,8 +55,19 @@
                                             Quản trị: <strong>${sessionScope.currentUser.username}</strong><br>
                                             <small class="text-muted">${sessionScope.currentUser.email}</small>
                                         </li>
-                                        <li><a class="dropdown-item" href="/"><i class="bi bi-globe me-2"></i> Về Website</a></li>
                                         <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/categories/searchpaginated">
+                                                <i class="bi bi-folder-fill me-2 text-danger"></i> Quản lý Category
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/users/searchpaginated">
+                                                <i class="bi bi-people-fill me-2 text-danger"></i> Quản lý User
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/"><i class="bi bi-globe me-2"></i> Về Website</a></li>
                                         <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
                                     </ul>
                                 </div>
@@ -70,7 +90,7 @@
     <!-- Admin Footer -->
     <footer class="bg-secondary text-white text-center py-3 mt-auto">
         <div class="container">
-            <small>&copy; 2026 Admin Portal - Spring Boot & SiteMesh 3 - BTTuan5</small>
+            <small>&copy; 2026 Admin Portal - Spring Boot & SiteMesh 3 - BTTuan5. Thiết kế bởi Phan Thế Quân.</small>
         </div>
     </footer>
 

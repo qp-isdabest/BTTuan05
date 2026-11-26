@@ -1,5 +1,7 @@
 package vn.iotstar.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import vn.iotstar.entity.User;
 
 import java.util.List;
@@ -21,9 +23,19 @@ public interface UserService {
 
     User save(User user);
 
+    User createUser(User user);
+
+    User updateUser(Long id, User userForm, String newPassword);
+
     Optional<User> findById(Long id);
 
     List<User> findAll();
+
+    Page<User> findAll(Pageable pageable);
+
+    Page<User> searchUsers(String keyword, Pageable pageable);
+
+    void deleteById(Long id);
 
     long count();
 }
